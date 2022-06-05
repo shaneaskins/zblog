@@ -24,7 +24,13 @@ module.exports = {
         knex("posts")
         .select("*")
         .then((data) => res.status(200).json(data))
-        .catch((err) => res.status(500).send("Server error"));
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        });
     },
     getPost: (req, res) => {
         const id = req.params.post_id;
@@ -37,14 +43,19 @@ module.exports = {
             if (!data || data.length === 0) {
                 return res.status(404)
                 .json({
-                    err:
-                    "The data you are looking for could not be found. Please try again.",
+                    success: false,
+                    err: "Post not found",
                 })
-                .send()
             }
             return res.status(200).json(data)
         })
-        .catch((err) => res.status(500).send("Server error"));
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        });
     },
     postPost: (req, res) => {
         const { title, content } = req.body;
@@ -60,8 +71,20 @@ module.exports = {
             date_created: date_created,
             date_modified: date_modified,
         }, 'id')
-        .then(( [ { id } ] ) => res.status(200).json(id))
-        .catch((err) => res.status(500).send("Server error"));
+        .then(( [ id ] ) => {
+            res.status(200)
+            .json({
+                success: true,
+                ...id,
+            })
+        })
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        });
     },
     putPost: (req, res) => {
         const { title, content } = req.body;
@@ -81,8 +104,27 @@ module.exports = {
             content: content,
             date_modified: date_modified,
         }, 'id')
-        .then(( [ { id } ] ) => res.status(200).json(id))
-        .catch((err) => res.status(500).send("Server error"));
+        .then(( [ id ] ) => {
+            if (!id) {
+                return res.status(404)
+                .json({
+                    success: false,
+                    err: "Post not found",
+                })
+            }
+            return res.status(200)
+            .json({
+                success: true,
+                ...id,
+            })
+        })
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        });
     },
     deletePost: (req, res) => {
         const user_id = res.user.id;
