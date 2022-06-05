@@ -27,12 +27,12 @@ Read-Only (GET):
 Create (POST):
 - /register
 - /login
-- /verify
 
 --- AUTHNZ ---
 
 Read-Only (GET):
 - /dashboard
+- /verify
 
 Create (POST):
 - /post/create
