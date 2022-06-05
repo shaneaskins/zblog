@@ -29,4 +29,8 @@ exports.seed = async function (knex) {
       "password": "$2a$10$LP9GLRiLjUm3OK/H3eHgX.uVfqw41WxsMC2fpFeGblVm1pTNqGOwe"
     }
   ]);
+
+  await knex.raw(
+    "SELECT SETVAL(pg_get_serial_sequence('users','id'), (SELECT MAX(id) FROM users) )"
+  );
 };

@@ -35,7 +35,7 @@ module.exports = {
             const bcryptPassword = await bcrypt.hash(password, salt);
             console.log(bcryptPassword);
 
-            const id = await knex("users")
+            const [ { id } ] = await knex("users")
                             .insert({
                                 first_name: first_name,
                                 last_name: last_name,
@@ -44,10 +44,12 @@ module.exports = {
                             }, 'id')
 
             // Generate JWT and send
-            const jwtToken = jwtGen.generate(id)
+            console.log(id)
+            const jwtToken = await jwtGen.generate(id)
             return res.status(200).json({ jwtToken })
         }
         catch(err) {
+            console.log(err)
             res.status(500).send("Server error")
         }
     },
@@ -69,7 +71,7 @@ module.exports = {
                 return res.status(401).json("Invalid Credentials")
             }
 
-            const jwtToken = jwtGen.generate(id)
+            const jwtToken = await jwtGen.generate(id)
             return res.status(200).json({ jwtToken })
         }
         catch (err) {
