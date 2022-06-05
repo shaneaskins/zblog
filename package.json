@@ -12,13 +12,19 @@
   "name": "zblog-api",
   "version": "1.0.0",
   "description": "Blog App API for Z-Prefix Assessment",
-  "main": "app.js",
+  "main": "server/app.js",
   "engines": {
     "node": "16.14.2",
     "npm": "8.5.0"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "scripts": {
-    "start": "nodemon .",
+    "start": "./start.sh",
+    "start:dev": "nodemon .",
+    "build": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shane Askins",

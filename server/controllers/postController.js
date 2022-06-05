@@ -1,4 +1,6 @@
-const knex = require("knex")(require("../knexfile")["development"]);
+const nodeEnv = (process.env.NODE_ENV) ? process.env.NODE_ENV : "development"
+
+const knex = require("knex")(require("../knexfile")[nodeEnv]);
 const moment = require("moment")
 
 /*
