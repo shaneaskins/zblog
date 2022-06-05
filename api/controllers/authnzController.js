@@ -6,10 +6,12 @@ const jwtGen = require("../utils/jwtGen");
 
 --- UNAUTHNZ ---
 
+Read-Only (GET):
+- /verify
+
 Create (POST):
 - /register
 - /login
-- /verify
 
 */
 
@@ -28,7 +30,6 @@ module.exports = {
             // Hash + salt password
             const salt = await bcrypt.genSalt(10);
             const bcryptPassword = await bcrypt.hash(password, salt);
-            //console.log(bcryptPassword);
 
             const [ { id } ] = await knex("users")
                             .insert({
@@ -39,7 +40,6 @@ module.exports = {
                             }, 'id')
 
             // Generate JWT and send
-            //console.log(id)
             const jwtToken = await jwtGen.generate(id)
             return res.status(200).json({ jwtToken })
         }

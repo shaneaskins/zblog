@@ -50,7 +50,7 @@ app.get("/ping", (req, res) => {
         res
         .status(404)
         .json({
-            message:
+            err:
             "The data you are looking for could not be found. Please try again.",
         })
         .send()
