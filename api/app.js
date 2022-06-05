@@ -35,7 +35,6 @@ Read-Only (GET):
 - /dashboard
 
 Create (POST):
-- /logout
 - /post/create
 
 UD (PUT, DELETE):
@@ -60,10 +59,10 @@ app.get("/ping", (req, res) => {
 
 // Authnz Routes
 
-app.get("/verify", authnzCtrl.getVerify);
+app.get("/verify", authnzMW.isLoggedIn, authnzCtrl.getVerify);
 app.post("/register", authnzCtrl.postRegister);
 app.post("/login", authnzCtrl.postLogin);
-app.post("/logout", authnzMW.isLoggedIn, authnzCtrl.postLogout);
+//app.post("/logout", authnzMW.isLoggedIn, authnzCtrl.postLogout);
 
 // User Routes
 

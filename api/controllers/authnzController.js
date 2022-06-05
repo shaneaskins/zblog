@@ -11,11 +11,6 @@ Create (POST):
 - /login
 - /verify
 
---- AUTHNZ ---
-
-Create (POST):
-- /logout
-
 */
 
 module.exports = {
@@ -33,7 +28,7 @@ module.exports = {
             // Hash + salt password
             const salt = await bcrypt.genSalt(10);
             const bcryptPassword = await bcrypt.hash(password, salt);
-            console.log(bcryptPassword);
+            //console.log(bcryptPassword);
 
             const [ { id } ] = await knex("users")
                             .insert({
@@ -44,7 +39,7 @@ module.exports = {
                             }, 'id')
 
             // Generate JWT and send
-            console.log(id)
+            //console.log(id)
             const jwtToken = await jwtGen.generate(id)
             return res.status(200).json({ jwtToken })
         }
@@ -71,6 +66,7 @@ module.exports = {
                 return res.status(401).json("Invalid Credentials")
             }
 
+            console.log(id)
             const jwtToken = await jwtGen.generate(id)
             return res.status(200).json({ jwtToken })
         }
@@ -78,6 +74,12 @@ module.exports = {
             return res.status(401).json("Invalid Credentials")
         }
     },
-    postLogout: (req, res) => {},
-    getVerify: (req, res) => {},
+    getVerify: (req, res) => {
+        try {
+            res.status(200).json(res.user)
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send("Server error");
+        }
+    },
 }
