@@ -86,11 +86,15 @@ module.exports = {
             })
         });
     },
-    putPost: (req, res) => {
+    putPost: async (req, res) => {
         const { title, content } = req.body;
         const user_id = res.user.id;
         const id = req.params.post_id;
         const date_modified = moment().format();
+
+        const postToPut = await knex("posts").where({id: id}).first();
+        const postExists = (postToPut) ? true : false
+        const putAuthzd =  (postToPut) ? (postToPut.user_id === user_id) : false
 
         knex("posts")
         .where({
@@ -105,11 +109,18 @@ module.exports = {
             date_modified: date_modified,
         }, 'id')
         .then(( [ id ] ) => {
-            if (!id) {
+            if (!postExists) {
                 return res.status(404)
                 .json({
                     success: false,
                     err: "Post not found",
+                })
+            }
+            if (postExists && !putAuthzd) {
+                return res.status(403)
+                .json({
+                    success: false,
+                    err: "Unauthorized",
                 })
             }
             return res.status(200)
@@ -126,9 +137,14 @@ module.exports = {
             })
         });
     },
-    deletePost: (req, res) => {
+    deletePost: async (req, res) => {
         const user_id = res.user.id;
         const id = req.params.post_id;
+
+        const postToDel = await knex("posts").where({id: id}).first();
+        const postExists = (postToDel) ? true : false
+        const putAuthzd =  (postToDel) ? (postToDel.user_id === user_id) : false
+
         knex("posts")
         .where({
             id: id
@@ -137,18 +153,32 @@ module.exports = {
             user_id: user_id,
         })
         .del()
-        .then((data) => {
-            if (!data) {
-                return res.status(403).json({
+        .then(() => {
+            if (!postExists) {
+                return res.status(404)
+                .json({
+                    success: false,
+                    err: "Post not found",
+                })
+            }
+            if (postExists && !putAuthzd) {
+                return res.status(403)
+                .json({
                     success: false,
                     err: "Unauthorized",
-                });
+                })
             }
             return res.status(200).json({
                 success: true,
                 msg: "Post deleted",
             });
         })
-        .catch((err) => res.status(500).send("Server error"))
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        })
     },
 }

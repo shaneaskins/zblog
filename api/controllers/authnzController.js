@@ -24,7 +24,10 @@ module.exports = {
             const user = await knex("users").where({ username: username }).first()
 
             if (user) {
-                return res.status(401).json("User already exists");
+                return res.status(401).json({
+                    success: false,
+                    err: "User already exists",
+                });
             }
 
             // Hash + salt password
@@ -45,7 +48,11 @@ module.exports = {
         }
         catch(err) {
             console.log(err)
-            res.status(500).send("Server error")
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
         }
     },
     postLogin: async (req, res) => {
@@ -63,7 +70,10 @@ module.exports = {
             const validPassword = await bcrypt.compare(plainPassword, password)
 
             if (!validPassword) {
-                return res.status(401).json("Invalid Credentials")
+                return res.status(401).json({
+                    success: false,
+                    err: "Unauthenticated",
+                });
             }
 
             console.log(id)
@@ -71,7 +81,10 @@ module.exports = {
             return res.status(200).json({ jwtToken })
         }
         catch (err) {
-            return res.status(401).json("Invalid Credentials")
+            return res.status(401).json({
+                success: false,
+                err: "Unauthenticated",
+            });
         }
     },
     getVerify: (req, res) => {
@@ -79,7 +92,11 @@ module.exports = {
             res.status(200).json(res.user)
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(401)
+            .json({
+                success: false,
+                err: "Unauthenticated",
+            });
         }
     },
 }

@@ -12,7 +12,7 @@ module.exports = {
             if (!token) {
                 return res.status(403).json({
                     success: false,
-                    err: "Access denied",
+                    err: "Unauthorized",
                 });
             }
 
@@ -24,7 +24,7 @@ module.exports = {
         catch(err) {
             res.status(401).json({
                 success: false,
-                err: "Token is not valid",
+                err: "Unauthenticated",
             });
         }
     },
