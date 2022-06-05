@@ -2,16 +2,16 @@ const express = require("express");
 
 const app = express();
 const PORT = 3001;
-const knex = require("knex")(require("./knexfile.js")["development"]);
+const knex = require("knex")(require("./knexfile")["development"]);
 const cors = require("cors");
 
 const authnzCtrl = require('./controllers/authnzController');
 const userCtrl = require('./controllers/userController');
 const postCtrl = require('./controllers/postController');
 
+// Middleware
 const authnzMW = require('./middleware/authnz');
 
-//middleware
 app.use(cors());
 app.use(express.json());
 
@@ -44,7 +44,7 @@ UD (PUT, DELETE):
 */
 
 app.get("/ping", (req, res) => {
-    knex("ping")
+    knex("users")
     .select("*")
     .then((data) => res.status(200).json(data))
     .catch((err) =>
@@ -63,19 +63,19 @@ app.get("/ping", (req, res) => {
 app.get("/verify", authnzCtrl.getVerify);
 app.post("/register", authnzCtrl.postRegister);
 app.post("/login", authnzCtrl.postLogin);
-app.post("/logout", authnzMW, authnzCtrl.postLogout);
+app.post("/logout", authnzMW.isLoggedIn, authnzCtrl.postLogout);
 
 // User Routes
 
-app.get("/dashboard", authnzMW, userCtrl.getDashboard);
+app.get("/dashboard", authnzMW.isLoggedIn, userCtrl.getDashboard);
 
 // "Post" Routes
 
 app.get("/posts", postCtrl.getPosts);
-app.post("/post/create", authnzMW, postCtrl.postPost);
+app.post("/post/create", authnzMW.isLoggedIn, postCtrl.postPost);
 app.get("/post/:post_id", postCtrl.getPost);
-app.put("/post/:post_id", authnzMW, postCtrl.putPost);
-app.delete("/post/:post_id", authnzMW, postCtrl.deletePost);
+app.put("/post/:post_id", authnzMW.isLoggedIn, postCtrl.putPost);
+app.delete("/post/:post_id", authnzMW.isLoggedIn, postCtrl.deletePost);
 
 // Listening...
 
