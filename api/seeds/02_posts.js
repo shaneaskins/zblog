@@ -47,4 +47,8 @@ exports.seed = async function(knex) {
       "date_modified": "2019-01-09 17:42:10"
     }
   ]);
+
+  await knex.raw(
+    "SELECT SETVAL(pg_get_serial_sequence('posts','id'), (SELECT MAX(id) FROM posts) )"
+  );
 };
