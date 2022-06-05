@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const path = require("path")
+const envPath = path.join(__dirname, ".env")
+require("dotenv").config({path: envPath});
 
 module.exports = {
     generate: async (user_id) => {
@@ -9,6 +11,6 @@ module.exports = {
             }
         };
 
-        return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "1h" });
+        return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
     }
 }

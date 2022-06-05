@@ -22,7 +22,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         });
     },

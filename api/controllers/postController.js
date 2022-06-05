@@ -28,7 +28,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         });
     },
@@ -44,7 +44,7 @@ module.exports = {
                 return res.status(404)
                 .json({
                     success: false,
-                    err: "Post not found",
+                    msg: "Post not found",
                 })
             }
             return res.status(200).json(data)
@@ -53,7 +53,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         });
     },
@@ -82,7 +82,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         });
     },
@@ -113,14 +113,14 @@ module.exports = {
                 return res.status(404)
                 .json({
                     success: false,
-                    err: "Post not found",
+                    msg: "Post not found",
                 })
             }
             if (postExists && !putAuthzd) {
                 return res.status(403)
                 .json({
                     success: false,
-                    err: "Unauthorized",
+                    msg: "Unauthorized",
                 })
             }
             return res.status(200)
@@ -133,7 +133,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         });
     },
@@ -158,14 +158,14 @@ module.exports = {
                 return res.status(404)
                 .json({
                     success: false,
-                    err: "Post not found",
+                    msg: "Post not found",
                 })
             }
             if (postExists && !putAuthzd) {
                 return res.status(403)
                 .json({
                     success: false,
-                    err: "Unauthorized",
+                    msg: "Unauthorized",
                 })
             }
             return res.status(200).json({
@@ -177,7 +177,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         })
     },

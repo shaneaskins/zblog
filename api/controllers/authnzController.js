@@ -26,7 +26,7 @@ module.exports = {
             if (user) {
                 return res.status(401).json({
                     success: false,
-                    err: "User already exists",
+                    msg: "User already exists",
                 });
             }
 
@@ -51,7 +51,7 @@ module.exports = {
             res.status(500)
             .json({
                 success: false,
-                err: "Server error",
+                msg: "Server error",
             })
         }
     },
@@ -72,7 +72,7 @@ module.exports = {
             if (!validPassword) {
                 return res.status(401).json({
                     success: false,
-                    err: "Unauthenticated",
+                    msg: "Unauthenticated",
                 });
             }
 
@@ -83,7 +83,7 @@ module.exports = {
         catch (err) {
             return res.status(401).json({
                 success: false,
-                err: "Unauthenticated",
+                msg: "Unauthenticated",
             });
         }
     },
@@ -95,7 +95,7 @@ module.exports = {
             res.status(401)
             .json({
                 success: false,
-                err: "Unauthenticated",
+                msg: "Unauthenticated",
             });
         }
     },

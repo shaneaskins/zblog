@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const path = require("path")
+const envPath = path.join(__dirname, "../", ".env")
+require("dotenv").config({path: envPath});
 
 module.exports = {
     isLoggedIn: (req, res, next) => {
@@ -16,7 +18,7 @@ module.exports = {
                 });
             }
 
-            const verify = jwt.verify(token, process.env.jwtSecret);
+            const verify = jwt.verify(token, process.env.JWT_SECRET);
     
             res.user = { ...verify.user, success: true };
             next();

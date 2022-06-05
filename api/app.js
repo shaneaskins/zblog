@@ -42,7 +42,7 @@ UD (PUT, DELETE):
 
 */
 
-app.get("/ping", (req, res) => {
+app.get("/api/ping", (req, res) => {
     knex("users")
     .select("*")
     .then((data) => res.status(200).json(data))
@@ -59,22 +59,26 @@ app.get("/ping", (req, res) => {
 
 // Authnz Routes
 
-app.get("/verify", authnzMW.isLoggedIn, authnzCtrl.getVerify);
-app.post("/register", authnzCtrl.postRegister);
-app.post("/login", authnzCtrl.postLogin);
-//app.post("/logout", authnzMW.isLoggedIn, authnzCtrl.postLogout);
+app.get("/api/verify", authnzMW.isLoggedIn, authnzCtrl.getVerify);
+app.post("/api/register", authnzCtrl.postRegister);
+app.post("/api/login", authnzCtrl.postLogin);
+//app.post("/api/logout", authnzMW.isLoggedIn, authnzCtrl.postLogout);
 
 // User Routes
 
-app.get("/dashboard", authnzMW.isLoggedIn, userCtrl.getDashboard);
+app.get("/api/dashboard", authnzMW.isLoggedIn, userCtrl.getDashboard);
 
 // "Post" Routes
 
-app.get("/posts", postCtrl.getPosts);
-app.post("/post/create", authnzMW.isLoggedIn, postCtrl.postPost);
-app.get("/post/:post_id", postCtrl.getPost);
-app.put("/post/:post_id", authnzMW.isLoggedIn, postCtrl.putPost);
-app.delete("/post/:post_id", authnzMW.isLoggedIn, postCtrl.deletePost);
+app.get("/api/posts", postCtrl.getPosts);
+app.post("/api/post/create", authnzMW.isLoggedIn, postCtrl.postPost);
+app.get("/api/post/:post_id", postCtrl.getPost);
+app.put("/api/post/:post_id", authnzMW.isLoggedIn, postCtrl.putPost);
+app.delete("/api/post/:post_id", authnzMW.isLoggedIn, postCtrl.deletePost);
+
+app.get("*", (req, res) => {
+    res.redirect("/api/posts");
+})
 
 // Listening...
 
