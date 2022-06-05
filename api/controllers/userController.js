@@ -18,6 +18,12 @@ module.exports = {
             user_id: user_id,
         })
         .then((data) => res.status(200).json(data))
-        .catch((err) => res.status(500).send("Server error"));
+        .catch((err) => {
+            res.status(500)
+            .json({
+                success: false,
+                err: "Server error",
+            })
+        });
     },
 }
