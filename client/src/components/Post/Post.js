@@ -30,7 +30,7 @@ const Post = () => {
   const [ editMode, setEditMode ] = useState(false)
 
   const { post_id } = useParams()
-  const { user, userId } = useAuth();
+  const { userId } = useAuth();
 
   const navigate = useNavigate();
 
@@ -102,6 +102,7 @@ const Post = () => {
     )
     .then(res => res.json())
     .then(data => console.log(data))
+    navigate("/dashboard")
   };
 
   const theme = createTheme();
