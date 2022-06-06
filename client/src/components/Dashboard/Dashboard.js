@@ -29,8 +29,6 @@ const Copyright = (props) => {
     );
 };
 
-
-
 const theme = createTheme();
 
 const Dashboard = () => {
@@ -86,6 +84,7 @@ const Dashboard = () => {
         )
         .then(res => res.json())
         .then(data => console.log(data))
+        window.location.reload()
       };
 
     const handleCancel = (event) => {
