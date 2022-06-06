@@ -96,7 +96,7 @@ const Posts = () => {
                         {post.title}
                         </Typography>
                         <Typography>
-                        {post.content.replace(/^(.{100}[^\s]*).*/, "$1")}
+                        {post.content.replace(/^(.{100}[^\s]*).*/, "$1...")}
                         </Typography>
                     </CardContent>
                     <CardActions>
