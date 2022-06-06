@@ -5,7 +5,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [ user, setUser ] = useLocalStorage("token", null);
-  const [ userId, setUserId ] = useState(-1);
+  const [ userId, setUserId ] = useState(null);
+  const [ username, setUsername ] = useState(null);
   const navigate = useNavigate();
 
   // throwing verify function in here
@@ -27,7 +28,8 @@ export const AuthProvider = ({ children }) => {
     }
     else {
       setUser(null);
-      setUserId(-1)
+      setUserId(null);
+      setUsername(null);
     }
   };
 
@@ -48,6 +50,7 @@ export const AuthProvider = ({ children }) => {
 
       if (parseRes.jwtToken) {
           setUser(parseRes.jwtToken);
+          setUsername(username);
           navigate("/dashboard");
       }
       console.log(user)
@@ -74,6 +77,7 @@ export const AuthProvider = ({ children }) => {
 
         if (parseRes.jwtToken) {
             setUser(parseRes.jwtToken);
+            setUsername(username);
             navigate("/dashboard");
         }
         console.log(user)
@@ -85,6 +89,8 @@ export const AuthProvider = ({ children }) => {
   // call this function to sign out logged in user
   const logout = () => {
     setUser(null);
+    setUserId(null);
+    setUsername(null);
     navigate("/login", { replace: true });
   };
 
@@ -92,12 +98,13 @@ export const AuthProvider = ({ children }) => {
     () => ({
       user,
       userId,
+      username,
       verify,
       register,
       login,
       logout
     }),
-    [user]
+    [user, userId, username]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

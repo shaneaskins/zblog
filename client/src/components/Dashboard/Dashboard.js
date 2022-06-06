@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Link } from "react-router-dom"
+
 import { useState, useEffect } from "react";
 
 const Copyright = (props) => {
@@ -48,7 +50,7 @@ const Dashboard = () => {
         catch (err) {
             console.error(err)
         }
-    }, [posts]);
+    }, []);
 
     return (
         <ThemeProvider theme={theme}>
@@ -97,11 +99,13 @@ const Dashboard = () => {
                         {post.title}
                         </Typography>
                         <Typography>
-                        {post.content.replace(/^(.{100}[^\s]*).*/, "$1")}
+                        {post.content.replace(/^(.{100}[^\s]*).*/, "$1...")}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small">View</Button>
+                        <Link to={"/post/" + post.id}>
+                            <Button size="small">View</Button>
+                        </Link>
                     </CardActions>
                     </Card>
                 </Grid>
