@@ -17,7 +17,7 @@ import { useAuth } from "../../hooks/useAuth";
 const Header = ({ pages }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, username, logout } = useAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,7 +40,7 @@ const Header = ({ pages }) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            Shane's Blog
+            {username || "Shane"}'s Blog
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

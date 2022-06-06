@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Link } from "react-router-dom"
+
 import { useState, useEffect } from "react";
 
 const Copyright = (props) => {
@@ -45,7 +47,7 @@ const Posts = () => {
         catch (err) {
             console.error(err)
         }
-    }, [posts]);
+    }, []);
 
     return (
         <ThemeProvider theme={theme}>
@@ -98,7 +100,9 @@ const Posts = () => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small">View</Button>
+                        <Link to={"/post/" + post.id}>
+                            <Button size="small">View</Button>
+                        </Link>
                     </CardActions>
                     </Card>
                 </Grid>
